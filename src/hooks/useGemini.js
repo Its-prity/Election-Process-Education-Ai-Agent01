@@ -1,0 +1,38 @@
+import { useState, useCallback } from 'react';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+export const useGemini = () => {
+  const [apiKey, setApiKey] = useState('AIzaSyANSKqrwBiXoEUgtAjFZG7EtTTWqruRmxs');
+  
+  const generateResponse = useCallback(async (userText, language) => {
+    if (!apiKey) {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const lowerText = userText.toLowerCase();
+      let response = "I notice you haven't provided an API key yet. For a real answer, please click 'Set API Key' in the top right. For now, this is a simulated response! 🗳️";
+      
+      if (lowerText.includes('vote') || lowerText.includes('voting')) {
+        response = "To vote in a U.S. presidential election, you must be a U.S. citizen, meet your state's residency requirements, be 18 years old on or before Election Day, and be registered to vote by your state's deadline.";
+      } else if (lowerText.includes('electoral college')) {
+        response = "The Electoral College is a process, not a place. The founding fathers established it in the Constitution as a compromise between election of the President by a vote in Congress and election of the President by a popular vote of qualified citizens. There are 538 electors in total.";
+      } else if (lowerText.includes('primary') || lowerText.includes('caucus')) {
+        response = "A primary is a state-level election where party members vote to choose a candidate affiliated with their political party. A caucus is a local meeting where registered members of a political party in a city, town or county gather to vote for their preferred party candidate and conduct other party business.";
+      }
+      return response;
+    }
+
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const prompt = `You are a helpful election AI assistant. Answer the user's question accurately regarding elections, voting, or political timelines. Keep the answer concise and easy to understand. You MUST respond entirely in ${language}. Use markdown formatting. Whenever explaining a process, timeline, or complex relationship, you MUST include a Mermaid.js diagram block (\`\`\`mermaid ... \`\`\`) to visualize it.\n\nUser Question: ${userText}`;
+      
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      return response.text();
+    } catch (error) {
+      console.error("Error generating AI response:", error);
+      return "API Error: " + error.message;
+    }
+  }, [apiKey]);
+
+  return { apiKey, setApiKey, generateResponse };
+};
