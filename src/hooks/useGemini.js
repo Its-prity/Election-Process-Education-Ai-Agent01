@@ -22,12 +22,25 @@ export const useGemini = () => {
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = `You are a helpful election AI assistant. Answer the user's question accurately regarding elections, voting, or political timelines. Keep the answer concise and easy to understand. You MUST respond entirely in ${language}. Use markdown formatting. Whenever explaining a process, timeline, or complex relationship, you MUST include a Mermaid.js diagram block (\`\`\`mermaid ... \`\`\`) to visualize it.\n\nUser Question: ${userText}`;
       
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      return response.text();
+      const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-pro"];
+      let lastError;
+
+      for (const modelName of modelsToTry) {
+        try {
+          const model = genAI.getGenerativeModel({ model: modelName });
+          const result = await model.generateContent(prompt);
+          const response = await result.response;
+          return response.text();
+        } catch (err) {
+          console.warn(`Model ${modelName} failed:`, err.message);
+          lastError = err;
+          // If it's a 503, try the next model. If it's an auth error, we could stop, but trying the next won't hurt.
+        }
+      }
+
+      throw lastError; // If all models fail, throw the last error
     } catch (error) {
       console.error("Error generating AI response:", error);
       return "API Error: " + error.message;
