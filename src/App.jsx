@@ -4,12 +4,10 @@ import { useGemini } from './hooks/useGemini';
 import { Header } from './components/Header';
 import { Timeline } from './components/Timeline';
 import { ChatInterface } from './components/ChatInterface';
-import { ApiKeyModal } from './components/ApiKeyModal';
 
 function App() {
   const { apiKey, setApiKey, generateResponse } = useGemini();
   const [language, setLanguage] = useState('English');
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [messages, setMessages] = useState([
     { id: 1, text: 'Hello! I am your Election AI Assistant. Ask me any questions about the election process, voting, or timelines.', sender: 'ai' }
   ]);
@@ -66,8 +64,6 @@ function App() {
       <Header 
         language={language}
         setLanguage={setLanguage}
-        hasKey={!!apiKey}
-        onOpenModal={() => setIsModalOpen(true)}
       />
 
       <main className="container main-grid">
@@ -82,16 +78,6 @@ function App() {
           onSpeak={handleSpeak}
         />
       </main>
-
-      <ApiKeyModal 
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        currentKey={apiKey}
-        onSave={(key) => {
-          setApiKey(key);
-          setIsModalOpen(false);
-        }}
-      />
     </div>
   );
 }

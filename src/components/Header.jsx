@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Header = ({ language, setLanguage, hasKey, onOpenModal }) => {
+export const Header = ({ language, setLanguage }) => {
   return (
     <header className="header" role="banner">
       <div className="container header-content">
@@ -30,17 +30,6 @@ export const Header = ({ language, setLanguage, hasKey, onOpenModal }) => {
             <option value="Mandarin">中文</option>
             <option value="Japanese">日本語</option>
           </select>
-          <button 
-            className={`api-key-btn ${hasKey ? 'has-key' : ''}`}
-            onClick={onOpenModal}
-            aria-label={hasKey ? 'Manage API Key (Active)' : 'Set API Key'}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            {hasKey ? 'API Key Active' : 'Set API Key'}
-          </button>
         </div>
       </div>
     </header>
