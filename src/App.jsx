@@ -9,7 +9,7 @@ function App() {
   const { apiKey, setApiKey, generateResponse } = useGemini();
   const [language, setLanguage] = useState('English');
   const [messages, setMessages] = useState([
-    { id: 1, text: 'Hello! I am your Election AI Assistant. Ask me any questions about the election process, voting, or timelines.', sender: 'ai' }
+    { id: 1, text: 'Hello! I am your AI Assistant, specializing in the Indian Election System. Ask me about Indian elections, voting, or feel free to ask me ANY other random questions you might have!', sender: 'ai' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);

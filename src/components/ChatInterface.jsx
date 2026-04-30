@@ -16,7 +16,7 @@ export const ChatInterface = ({
   const hasUserMessaged = messages.length > 1;
   const currentPlaceholder = hasUserMessaged 
     ? "Ask a follow-up question, or explore another topic..." 
-    : "Curious about the elections? Ask me anything...";
+    : "Ask about Indian elections, or anything else on your mind...";
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -31,7 +31,7 @@ export const ChatInterface = ({
           </svg>
           AI Assistant
         </h2>
-        <p>Ask anything about how elections work</p>
+        <p>Expert in Indian Elections, but happy to answer anything!</p>
       </div>
       
       <div className="chat-messages" role="log" aria-live="polite">
