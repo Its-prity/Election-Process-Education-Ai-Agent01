@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const useGemini = () => {
-  const [apiKey, setApiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDKhQgv72jIRh4Ex04eWlWCaRvxNaj3ebw');
+  const [apiKey, setApiKey] = useState(import.meta.env.VITE_GEMINI_API_KEY || 'AIzaSyDUfLRtyvHbiWXIvQH2srRd3EY9VJ57UGM');
   
   const generateResponse = useCallback(async (userText, language) => {
     if (!apiKey) {
