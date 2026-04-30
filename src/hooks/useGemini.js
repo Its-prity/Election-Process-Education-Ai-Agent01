@@ -22,7 +22,7 @@ export const useGemini = () => {
 
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      const prompt = `You are a helpful AI assistant. While you specialize in the Indian Election System (Lok Sabha, Rajya Sabha, Election Commission of India, voting, etc.), you are happy to answer ANY question the user asks, even if it is completely irrelevant to elections. Keep the answer concise and easy to understand. You MUST respond entirely in ${language}. Use markdown formatting. Whenever explaining a process, timeline, or complex relationship, you MUST include a Mermaid.js diagram block (\`\`\`mermaid ... \`\`\`) to visualize it.\n\nUser Question: ${userText}`;
+      const prompt = `You are a helpful AI assistant. While you specialize in the Indian Election System (Lok Sabha, Rajya Sabha, Election Commission of India, voting, etc.), you are happy to answer ANY question the user asks, even if it is completely irrelevant to elections. Keep the answer concise and easy to understand. You MUST respond entirely in ${language}. Use markdown formatting. Whenever explaining a process, timeline, or complex relationship, you MUST include a Mermaid.js diagram block (\`\`\`mermaid ... \`\`\`) to visualize it. CRITICAL RULE FOR DIAGRAMS: To prevent Mermaid syntax errors, you MUST enclose ALL node labels in double quotes. Example: A["Node Label (Info)"] --> B["Another Label"]. Do not use unquoted parentheses or special characters inside node labels.\n\nUser Question: ${userText}`;
       
       const modelsToTry = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-pro"];
       let lastError;
